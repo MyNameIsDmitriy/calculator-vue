@@ -1,26 +1,86 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <vCalculator />
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import vCalculator from "./components/vCalculator.vue";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    vCalculator,
   },
 };
 </script>
 
 <style lang="scss">
+@import "@/_variables.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  background-image: linear-gradient(45deg, #33ccff, #ff66ff);
+  background-repeat: no-repeat;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-size: 1.6rem;
 }
 </style>
