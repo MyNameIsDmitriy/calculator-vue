@@ -147,18 +147,17 @@ export default {
           this.calculation = "";
           this.calculationResult = "";
         }
-        if (label === "1/x") this.calculation = `1/(${this.calculation})`; // improve with if else
-        if (label === "x²")
-          this.calculation = Math.pow(this.calculation, 2)
-            .toFixed(4) // no no no
-            .toString();
-        if (label === "π")
-          this.calculation += `${Math.PI.toFixed(4).toString()}`;
+        if (label === "1/x") this.calculation = `1/(${this.calculation})`;
+
+        if (label === "x²") this.calculation = `(${this.calculation})^2`;
+
+        if (label === "π") this.calculation += Math.PI.toFixed(4).toString();
+
         if (label === "ln") this.calculation += "ln()";
-        if (label === "e")
-          this.calculation += `${Math.E.toFixed(4).toString()}`;
-        if (label === "√")
-          this.calculation = Math.sqrt(this.calculation).toFixed(4).toString(); // no no no 2,0000
+
+        if (label === "e") this.calculation += Math.E.toFixed(4).toString();
+
+        if (label === "√") this.calculation = `(${this.calculation})^0.5`; // no no no 2,0000
 
         if (label === "sin") this.calculation += "sin()";
         if (label === "cos") this.calculation += "cos()";
@@ -187,16 +186,18 @@ export default {
       //   "ln()",
       // ];
 
-      let calculationArray = this.calculation.split(/[^0-9acgilnost()]/);
-      calculationArray.forEach((item) => {
-        if (trigoAndLog.includes(item)) {
-          this.calculation = this.calculation.replaceAll(item, `${item}()`); // not correct
-        }
-      });
+      // let calculationArray = this.calculation.split(/[^0-9acgilnost()]/);
+      // calculationArray.forEach((item) => {
+      //   if (trigoAndLog.includes(item)) {
+      //     this.calculation = this.calculation.replaceAll(item, `${item}()`); // not correct
+      //   }
+      // });
 
       // console.log(calculationArray);
 
       this.correctCalculation = this.calculation;
+
+      this.correctCalculation = this.correctCalculation.replace("^", "**");
 
       trigoAndLog.forEach((el) => {
         this.correctCalculation = this.correctCalculation.replace(
