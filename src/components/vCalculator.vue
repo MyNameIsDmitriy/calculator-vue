@@ -111,6 +111,12 @@ export default {
     };
   },
 
+  watch: {
+    calculation(newCalc) {
+      if (newCalc === "") this.calculationResult = "";
+    },
+  },
+
   methods: {
     getHistory() {
       this.calculationHistory.splice(2, 1);
