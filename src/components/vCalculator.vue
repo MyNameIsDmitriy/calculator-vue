@@ -21,18 +21,16 @@
         </p>
       </form>
 
-      <!-- v-for="(label, description, buttonIndex) in buttons" :key="description" -->
-      <!-- hover effect is incorrect -->
       <div class="keyboard">
         <span
           class="keyboard__button"
-          onmouseover="repeater=setInterval(showDescription(), 100);"
-          onmouseout="clearInterval(repeater);"
-          @click="pressButton(label, $event)"
+          @mouseover="showDescription(label)"
+          @mouseleave="actualDescription = null"
+          @click="pressButton(label.buttonName, $event)"
           v-for="label in buttons"
           :key="label"
         >
-          {{ label }}
+          {{ label.buttonName }}
         </span>
       </div>
 
@@ -44,11 +42,13 @@
 </template>
 
 <script>
+// @mouseleave=""
+
+import { buttons } from "@/buttons.js";
+
 export default {
   name: "vCalculator",
-  props: {
-    msg: String,
-  },
+  props: [],
 
   data() {
     return {
@@ -56,36 +56,8 @@ export default {
       calculation: "",
       correctCalculation: "",
       calculationResult: "",
-      buttons: [
-        "Clear",
-        "(",
-        ")",
-        7,
-        8,
-        9,
-        "/",
-        "1/x",
-        "x²",
-        "π",
-        4,
-        5,
-        6,
-        "*", // ⋅
-        "ln",
-        "e",
-        "√",
-        1,
-        2,
-        3,
-        "-",
-        "sin",
-        "cos",
-        "tan",
-        0,
-        ".",
-        "=",
-        "+",
-      ],
+      buttons: buttons,
+
       mathOperations: ["/", "*", "-", "+", "."],
       descriptions: [],
       actualDescription: "",
@@ -229,8 +201,8 @@ export default {
       }
     },
 
-    showDescription() {
-      alert("super");
+    showDescription(label) {
+      this.actualDescription = label.buttonDescription;
     },
 
     //
