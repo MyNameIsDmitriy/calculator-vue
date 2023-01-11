@@ -24,8 +24,7 @@
       <div class="keyboard">
         <span
           class="keyboard__button"
-          @mouseover="showDescription(label, 'keyboard-description', 0.5, 0)"
-          @mouseleave="actualDescription = null"
+          @mouseover="typeDescription(label, 10, 0)"
           @click="pressButton(label.buttonName, $event)"
           v-for="label in buttons"
           :key="label"
@@ -203,18 +202,25 @@ export default {
       }
     },
 
-    showDescription(label, targetElement, timeBetween, currentPos) {
-      //this.actualDescription = label.buttonDescription;
-
+    showDescription(label, timeBetween, currentPos) {
       if (currentPos < label.buttonDescription.length) {
-        document.getElementsByClassName(targetElement).innerHTML +=
-          label.buttonDescription.charAt(currentPos);
+        this.actualDescription += label.buttonDescription.charAt(currentPos);
         currentPos++;
 
-        setTimeout(function () {
-          this.showDescription(label, targetElement, timeBetween, currentPos);
+        this.discriptionTimer = setTimeout(() => {
+          this.showDescription(label, timeBetween, currentPos);
         }, timeBetween);
       }
+    },
+
+    typeDescription(label, timeBetween, currentPos) {
+      this.hideDescription();
+      this.showDescription(label, timeBetween, currentPos);
+    },
+
+    hideDescription() {
+      clearTimeout(this.discriptionTimer);
+      this.actualDescription = "";
     },
 
     //
