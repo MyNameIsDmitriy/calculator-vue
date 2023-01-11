@@ -25,6 +25,7 @@
         <span
           class="keyboard__button"
           @mouseover="typeDescription(label, 10, 0)"
+          @mouseleave="hideDescription()"
           @click="pressButton(label.buttonName, $event)"
           v-for="label in buttons"
           :key="label"
@@ -43,8 +44,6 @@
 </template>
 
 <script>
-// @mouseleave=""
-
 import { buttons } from "@/buttons.js";
 
 export default {
@@ -60,27 +59,7 @@ export default {
       buttons: buttons,
 
       mathOperations: ["/", "*", "-", "+", "."],
-      descriptions: [],
       actualDescription: "",
-
-      previousCalcValue: "",
-      availableCharacters: [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "0",
-        "+",
-        "-",
-        "/",
-        "*",
-      ],
-      dangerDuplicate: ["(", ")", "/", "+", "*", "-", "=", "."],
     };
   },
 
@@ -107,7 +86,7 @@ export default {
       } catch (err) {
         // console.log(err.name);
         // console.log(err.message);
-        return; // do nothing
+        return;
       }
     },
 
@@ -136,7 +115,7 @@ export default {
 
         if (label === "e") this.calculation += Math.E.toFixed(4).toString();
 
-        if (label === "√") this.calculation = `(${this.calculation})^0.5`; // no no no 2,0000
+        if (label === "√") this.calculation = `(${this.calculation})^0.5`;
 
         if (label === "sin") this.calculation += "sin()";
         if (label === "cos") this.calculation += "cos()";
@@ -149,30 +128,12 @@ export default {
         this.$refs.inputRef.focus();
       } catch (error) {
         this.$refs.inputRef.focus();
-        return; // do nothing
+        return;
       }
-      // if (label === "=")
     },
 
     validator() {
       let trigoAndLog = ["cos", "sin", "tan", "log10", "log2", "ln"];
-      // let trigoParantheses = [
-      //   "cos()",
-      //   "sin()",
-      //   "tan()",
-      //   "log10()",
-      //   "log2()",
-      //   "ln()",
-      // ];
-
-      // let calculationArray = this.calculation.split(/[^0-9acgilnost()]/);
-      // calculationArray.forEach((item) => {
-      //   if (trigoAndLog.includes(item)) {
-      //     this.calculation = this.calculation.replaceAll(item, `${item}()`); // not correct
-      //   }
-      // });
-
-      // console.log(calculationArray);
 
       this.correctCalculation = this.calculation;
 
@@ -221,53 +182,6 @@ export default {
     hideDescription() {
       clearTimeout(this.discriptionTimer);
       this.actualDescription = "";
-    },
-
-    //
-    //
-    //
-    //
-
-    testFunction(n) {
-      if (!isNaN(n)) {
-        this.calcValue += n;
-        this.previousCalcValue = "";
-      }
-
-      // +++++++ duplicate
-      if (
-        this.calcValue != 0 &&
-        this.previousCalcValue === "" &&
-        (n === "." ||
-          n === "+" ||
-          n === "*" ||
-          n === "-" ||
-          n === "/" ||
-          n === "(" ||
-          n === ")")
-      ) {
-        this.calcValue += n;
-        this.previousCalcValue = n;
-      }
-
-      if (n === "Clear") {
-        this.calcValue = "";
-        this.previousCalcValue = "";
-      }
-
-      if (n === "√") {
-        if (Math.sqrt(this.calcValue).toString().length > 4) {
-          this.calcValue = Math.sqrt(this.calcValue).toFixed(4);
-        } else this.calcValue = Math.sqrt(this.calcValue);
-      }
-
-      if (n === "=" && this.previousCalcValue === "") {
-        this.calcValue =
-          eval(this.calcValue).toString().split(".")[1]?.length > 4
-            ? eval(this.calcValue).toFixed(4).toString()
-            : eval(this.calcValue).toString();
-        this.previousCalcValue = n;
-      }
     },
   },
 };
