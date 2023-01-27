@@ -1,64 +1,53 @@
 <template>
   <div class="wrapper">
     <div class="calculator">
-      <div class="calculation-history">
-        <p>{{ calculationHistory[2] || "" }}</p>
-        <p>{{ calculationHistory[1] || "" }}</p>
-        <p>{{ calculationHistory[0] || "calculate smth to get history" }}</p>
-      </div>
+      <CalcHistory :calculationHistory="calculationHistory" />
 
-      <form class="calculation" @submit.prevent>
-        <input
-          class="calculation-field input"
-          type="text"
-          autofocus
-          ref="inputRef"
-          @keyup="calculateInput"
-          v-model="calculation"
-        />
-        <p class="calculation-result">
-          {{ calculationResult || "result is..." }}
-        </p>
-      </form>
+      <CalcDisplay
+        :calculationResult="calculationResult"
+        :inputRef="inputRef"
+        @calculateInput="calculateInput"
+        v-model="calculation"
+      />
 
-      <div class="keyboard">
-        <span
-          class="keyboard__button"
-          @mouseover="typeDescription(label, 10, 0)"
-          @mouseleave="hideDescription()"
-          @click="pressButton(label.buttonName, $event)"
-          v-for="label in buttons"
-          :key="label"
-        >
-          {{ label.buttonName }}
-        </span>
-      </div>
+      <CalcKeyboard
+        :calculation="calculation"
+        :inputRef="inputRef"
+        @pressButton="pressButton"
+        @typeDescription="typeDescription"
+        @hideDescription="hideDescription"
+      />
 
-      <div class="keyboard-description">
-        <p>
-          {{ actualDescription || "hover your mouse over any of the buttons" }}
-        </p>
-      </div>
+      <CalcDescription :actualDescription="actualDescription" />
     </div>
   </div>
 </template>
 
 <script>
-import { buttons } from "@/buttons.js";
+import CalcHistory from "@/components/calc-hystory.vue";
+import CalcDisplay from "@/components/calc-display.vue";
+import CalcKeyboard from "@/components/calc-keyboard.vue";
+import CalcDescription from "@/components/calc-description.vue";
 
 export default {
   name: "vCalculator",
-  props: [],
+  components: {
+    CalcHistory,
+    CalcDisplay,
+    CalcKeyboard,
+    CalcDescription,
+  },
 
   data() {
     return {
       calculationHistory: [],
+
       calculation: "",
       correctCalculation: "",
       calculationResult: "",
-      buttons: buttons,
 
       mathOperations: ["/", "*", "-", "+", "."],
+
       actualDescription: "",
     };
   },
@@ -70,26 +59,6 @@ export default {
   },
 
   methods: {
-    getHistory() {
-      this.calculationHistory.splice(2, 1);
-      this.calculationHistory.unshift(this.calculation);
-    },
-
-    calculateInput(event) {
-      try {
-        if (/[^0-9aceilnopstx+\-*.^()/]/g.test(event.key)) {
-          event.preventDefault(); // preventDefault() is not working
-        }
-
-        this.validator();
-        if (event.key === "Enter") this.getHistory();
-      } catch (err) {
-        // console.log(err.name);
-        // console.log(err.message);
-        return;
-      }
-    },
-
     pressButton(label) {
       try {
         if (
@@ -124,43 +93,19 @@ export default {
         this.validator();
 
         if (label === "=") this.getHistory();
-
-        this.$refs.inputRef.focus();
       } catch (error) {
-        this.$refs.inputRef.focus();
         return;
       }
     },
 
-    validator() {
-      let trigoAndLog = ["cos", "sin", "tan", "log10", "log2", "ln"];
+    hideDescription() {
+      clearTimeout(this.discriptionTimer);
+      this.actualDescription = "";
+    },
 
-      this.correctCalculation = this.calculation;
-
-      this.correctCalculation = this.correctCalculation.replace("^", "**");
-
-      trigoAndLog.forEach((el) => {
-        this.correctCalculation = this.correctCalculation.replace(
-          el,
-          "Math." + el
-        );
-        if (el === "ln") {
-          this.correctCalculation = this.correctCalculation.replace(el, "log");
-        }
-      });
-
-      console.log(this.correctCalculation);
-
-      this.calculationResult =
-        eval(this.correctCalculation).toString().split(".")[1]?.length > 4
-          ? eval(this.correctCalculation).toFixed(4).toString()
-          : eval(this.correctCalculation).toString();
-
-      if (this.calculationResult.toString().split(".")[1] === "0000") {
-        this.calculationResult = this.calculationResult
-          .toString()
-          .split(".")[0];
-      }
+    typeDescription(label, timeBetween, currentPos) {
+      this.hideDescription();
+      this.showDescription(label, timeBetween, currentPos);
     },
 
     showDescription(label, timeBetween, currentPos) {
@@ -174,14 +119,55 @@ export default {
       }
     },
 
-    typeDescription(label, timeBetween, currentPos) {
-      this.hideDescription();
-      this.showDescription(label, timeBetween, currentPos);
+    getHistory() {
+      this.calculationHistory.splice(2, 1);
+      this.calculationHistory.unshift(this.calculation);
     },
 
-    hideDescription() {
-      clearTimeout(this.discriptionTimer);
-      this.actualDescription = "";
+    calculateInput(event) {
+      try {
+        this.validator();
+        if (event.key === "Enter") this.getHistory();
+
+        if (/[^0-9aceilnopstx+\-*.^()/]/g.test(event.key)) {
+          event.preventDefault(); // preventDefault() is not working
+        }
+      } catch (err) {
+        // console.log(err.name);
+        // console.log(err.message);
+        return;
+      }
+    },
+
+    validator() {
+      let trigoAndLog = ["cos", "sin", "tan", "log10", "log2", "ln"];
+
+      this.correctCalculation = this.calculation;
+
+      this.correctCalculation = this.correctCalculation.replace("^", "**");
+
+      trigoAndLog.forEach((el) => {
+        this.correctCalculation = this.correctCalculation.replaceAll(
+          el,
+          "Math." + el
+        );
+        if (el === "ln") {
+          this.correctCalculation = this.correctCalculation.replace(el, "log");
+        }
+      });
+
+      console.log("correct calc: " + this.correctCalculation); // comment me or delete
+
+      this.calculationResult =
+        eval(this.correctCalculation).toString().split(".")[1]?.length > 4
+          ? eval(this.correctCalculation).toFixed(4).toString()
+          : eval(this.correctCalculation).toString();
+
+      if (this.calculationResult.toString().split(".")[1] === "0000") {
+        this.calculationResult = this.calculationResult
+          .toString()
+          .split(".")[0];
+      }
     },
   },
 };
@@ -205,24 +191,6 @@ export default {
   border: 2px solid cyan;
 
   background-color: rgba(255, 255, 255, 0.25);
-}
-
-.calculation-history {
-  display: flex;
-  flex-direction: column;
-
-  margin-top: 5px;
-  p {
-    display: flex;
-    justify-content: flex-end;
-
-    width: 97%;
-
-    margin-bottom: 3px;
-
-    color: $color-black;
-    font-family: $font-2;
-  }
 }
 
 .calculation {
@@ -285,13 +253,6 @@ export default {
     transition: all 0.2s ease-in;
   }
 }
-
-.keyboard-description p {
-  color: $color-black;
-  font-size: 1.6rem;
-  font-family: $font-2;
-}
-
 // -----------------------------
 // Delete all styles under this line
 // -----------------------------
