@@ -177,15 +177,14 @@ export default {
 @import "@/_variables.scss";
 
 .wrapper {
-  width: $content-small-width;
-  margin: 0 auto;
+  width: 100%;
+  margin: 7% auto;
 }
 
 .calculator {
   display: flex;
   flex-direction: column;
 
-  width: 700px;
   margin: 0 auto;
 
   border: 2px solid cyan;
@@ -253,39 +252,22 @@ export default {
     transition: all 0.2s ease-in;
   }
 }
-// -----------------------------
-// Delete all styles under this line
-// -----------------------------
 
-.screen-wrap {
-  display: flex;
-  justify-content: center;
+@media screen and (max-width: $content-small-width) {
+  .calculator {
+    width: 58%;
+  }
 }
 
-.screen {
-  width: 50%;
-  min-height: 60px;
-
-  background-color: $color-black;
-
-  border: 4px solid $color-orange;
-  border-radius: 6px;
-
-  margin: 50px auto;
-
-  text-align: center;
-
-  color: $color-orange;
-  font-family: $font-2;
-  font-size: 1.8rem;
-  font-weight: 600;
-
-  outline: none;
+@media screen and (max-width: $content-md-width) {
+  .calculator {
+    width: 58%;
+  }
 }
 
-.button:active {
-  background-color: $color-purple;
-
-  transition: all 0.2s ease-out;
+@media screen and (min-width: 1481px) {
+  .calculator {
+    width: 58%;
+  }
 }
 </style>

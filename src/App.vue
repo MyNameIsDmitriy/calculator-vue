@@ -81,6 +81,10 @@ body {
 }
 
 #app {
+  height: 100%;
+
+  display: flex;
+
   font-size: 1.6rem;
 }
 </style>

@@ -26,5 +26,6 @@ export default {
   color: $color-black;
   font-size: 1.6rem;
   font-family: $font-2;
+  margin-bottom: 5px;
 }
 </style>
