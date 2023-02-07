@@ -86,6 +86,8 @@ export default {
 
         if (label === "√") this.calculation = `(${this.calculation})^0.5`;
 
+        if (label === "%") this.calculation = `${this.calculation}/100`;
+
         if (label === "sin") this.calculation += "sin()";
         if (label === "cos") this.calculation += "cos()";
         if (label === "tan") this.calculation += "tan()";
@@ -192,64 +194,9 @@ export default {
   background-color: rgba(255, 255, 255, 0.25);
 }
 
-.calculation {
-  margin: 5px 0 7px 0;
-
-  .calculation-field {
-    width: 100%;
-
-    box-sizing: border-box;
-    border: none;
-    outline: none;
-
-    background: transparent;
-    font-size: 1.8rem;
-    color: $color-white;
-    font-family: $font-1;
-
-    text-align: center;
-  }
-
-  .calculation-result {
-    display: flex;
-    justify-content: center;
-
-    color: $color-purple;
-    font-size: 1.7rem;
-    font-family: $font-2;
-  }
-}
-
-.keyboard {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-
-  width: 100%;
-  box-sizing: border-box;
-
-  padding: 5px 0;
-
-  color: $color-white;
-  font-size: 1.8rem;
-  font-family: $font-1;
-
-  .keyboard__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin: 5px 0;
-  }
-
-  .keyboard__button:hover {
-    color: $color-purple;
-    cursor: pointer;
-  }
-
-  .keyboard__button:active {
-    background-color: rgba(255, 10, 255, 0.25);
-    cursor: pointer;
-    transition: all 0.2s ease-in;
+@media screen and (max-width: $tablet-width) {
+  .calculator {
+    min-width: 98%;
   }
 }
 

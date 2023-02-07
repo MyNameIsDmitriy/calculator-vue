@@ -1,7 +1,7 @@
 <template>
   <form class="calculation" @submit.prevent>
     <input
-      class="calculation-field input"
+      class="calculation-field"
       type="text"
       autofocus
       ref="inputRef"
@@ -39,7 +39,7 @@ export default {
   margin: 5px 0 7px 0;
 
   .calculation-field {
-    width: 100%;
+    width: 99%;
 
     box-sizing: border-box;
     border: none;

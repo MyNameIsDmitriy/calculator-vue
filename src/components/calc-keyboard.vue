@@ -11,10 +11,34 @@
       {{ label.buttonName }}
     </span>
   </div>
+
+  <div class="keyboard-mobile-button">
+    <span
+      class="keyboard__button"
+      @click="pressButton(label.buttonName, $event)"
+      v-for="label in mobileButtons"
+      :key="label"
+    >
+      {{ label.buttonName }}
+    </span>
+  </div>
+
+  <div class="keyboard-mobile-func-button">
+    <span
+      class="keyboard__button"
+      @click="pressButton(label.buttonName, $event)"
+      v-for="label in mobileFuncButtons"
+      :key="label"
+    >
+      {{ label.buttonName }}
+    </span>
+  </div>
 </template>
 
 <script>
 import { buttons } from "@/buttons";
+import { mobileButtons } from "@/mobile-buttons";
+import { mobileFuncButtons } from "@/mobile-func-buttons";
 
 export default {
   name: "CalcKeyboard",
@@ -23,6 +47,8 @@ export default {
   data() {
     return {
       buttons: buttons,
+      mobileButtons: mobileButtons,
+      mobileFuncButtons: mobileFuncButtons,
     };
   },
 
@@ -44,10 +70,11 @@ export default {
 
 <style scoped lang="scss">
 @import "@/_variables.scss";
-.keyboard {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
 
+.keyboard,
+.keyboard-mobile-button,
+.keyboard-mobile-func-button {
+  display: grid;
   width: 100%;
   box-sizing: border-box;
 
@@ -65,15 +92,39 @@ export default {
     margin: 5px 0;
   }
 
-  .keyboard__button:hover {
-    color: $color-purple;
-    cursor: pointer;
-  }
-
   .keyboard__button:active {
     background-color: rgba(255, 10, 255, 0.25);
     cursor: pointer;
     transition: all 0.2s ease-in;
+  }
+}
+.keyboard {
+  grid-template-columns: repeat(7, 1fr);
+
+  .keyboard__button:hover {
+    color: $color-purple;
+    cursor: pointer;
+  }
+}
+
+.keyboard-mobile-button {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.keyboard-mobile-func-button {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media screen and (max-width: $mobile-big-width) {
+  .keyboard {
+    display: none;
+  }
+}
+
+@media screen and (min-width: $mobile-big-width) {
+  .keyboard-mobile-button,
+  .keyboard-mobile-func-button {
+    display: none;
   }
 }
 </style>

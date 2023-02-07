@@ -28,4 +28,10 @@ export default {
   font-family: $font-2;
   margin-bottom: 5px;
 }
+
+@media screen and (max-width: $tablet-width) {
+  .keyboard-description {
+    display: none;
+  }
+}
 </style>
