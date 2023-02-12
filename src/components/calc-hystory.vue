@@ -10,13 +10,6 @@
 export default {
   name: "CalcHistory",
   props: ["calculationHistory"],
-  emits: [""],
-
-  data() {
-    return {};
-  },
-
-  methods: {},
 };
 </script>
 
