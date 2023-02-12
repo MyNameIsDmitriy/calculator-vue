@@ -93,9 +93,10 @@ export default {
   }
 
   .keyboard__button:active {
-    background-color: rgba(255, 10, 255, 0.25);
+    text-decoration: underline $color-white;
+    transition: all 0.05ms ease-in 0s;
+
     cursor: pointer;
-    transition: all 0.2s ease-in;
   }
 }
 .keyboard {
