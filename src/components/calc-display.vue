@@ -10,7 +10,7 @@
       @input="$emit('update:modelValue', $event.target.value)"
     />
     <p class="calculation-result">
-      {{ calculationResult || "result is..." }}
+      {{ calculationResult || "calculate smth !" }}
     </p>
   </form>
 </template>
@@ -19,7 +19,7 @@
 export default {
   name: "CalcDisplay",
   props: ["calculationResult", "modelValue"],
-  emits: ["calculateInput", ""],
+  emits: ["calculateInput"],
 
   data() {
     return {};
