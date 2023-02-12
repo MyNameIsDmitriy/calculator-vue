@@ -10,12 +10,6 @@
 export default {
   name: "CalcDescription",
   props: ["actualDescription"],
-
-  data() {
-    return {};
-  },
-
-  methods: {},
 };
 </script>
 
