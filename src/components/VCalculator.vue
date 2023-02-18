@@ -5,14 +5,12 @@
 
       <CalcDisplay
         :calculationResult="calculationResult"
-        :inputRef="inputRef"
         @calculateInput="calculateInput"
         v-model="calculation"
       />
 
       <CalcKeyboard
         :calculation="calculation"
-        :inputRef="inputRef"
         @pressButton="pressButton"
         @typeDescription="typeDescription"
         @hideDescription="hideDescription"
@@ -24,10 +22,17 @@
 </template>
 
 <script>
-import CalcHistory from "@/components/calc-hystory.vue";
-import CalcDisplay from "@/components/calc-display.vue";
-import CalcKeyboard from "@/components/calc-keyboard.vue";
-import CalcDescription from "@/components/calc-description.vue";
+import CalcHistory from "@/components/CalcHistory.vue";
+import CalcDisplay from "@/components/CalcDisplay.vue";
+import CalcKeyboard from "@/components/CalcKeyboard.vue";
+import CalcDescription from "@/components/CalcDescription.vue";
+
+import { buttons } from "@/buttons";
+
+// TODO
+// object freeze ??? (несложно)
+
+const MATH_OPERATIONS = ["/", "*", "-", "+", "."];
 
 export default {
   name: "vCalculator",
@@ -40,14 +45,14 @@ export default {
 
   data() {
     return {
-      calculationHistory: [],
+      buttons: buttons,
+      aboba: "",
+      abiba: "",
 
+      calculationHistory: [],
       calculation: "",
       correctCalculation: "",
       calculationResult: "",
-
-      mathOperations: ["/", "*", "-", "+", "."],
-
       actualDescription: "",
     };
   },
@@ -59,43 +64,40 @@ export default {
   },
 
   methods: {
-    pressButton(label) {
+    pressButton(button) {
       try {
         if (
-          !isNaN(label) ||
-          this.mathOperations.includes(label) ||
-          label === "(" ||
-          label === ")"
+          !isNaN(button) ||
+          MATH_OPERATIONS.includes(button) ||
+          button === "(" ||
+          button === ")"
         ) {
-          this.calculation += label;
+          this.calculation += button;
         }
+        // else this.calculation = operation[button](this.calculation);
 
-        if (label === "Clear") {
+        if (button === "Clear") {
           this.calculation = "";
-          this.calculationResult = "";
         }
-        if (label === "1/x") this.calculation = `1/(${this.calculation})`;
 
-        if (label === "x²") this.calculation = `(${this.calculation})^2`;
+        if (button === "1/x") this.calculation = `1/(${this.calculation})`;
+        if (button === "x²") this.calculation = `(${this.calculation})^2`;
+        if (button === "√") this.calculation = `(${this.calculation})^0.5`;
+        if (button === "%") this.calculation = `${this.calculation}/100`;
 
-        if (label === "π") this.calculation += Math.PI.toFixed(4).toString();
+        if (button === "π") this.calculation += Math.PI.toFixed(4).toString();
+        if (button === "ln") this.calculation += "ln()";
+        if (button === "e") this.calculation += Math.E.toFixed(4).toString();
 
-        if (label === "ln") this.calculation += "ln()";
+        if (button === "sin") this.calculation += "sin()";
+        if (button === "cos") this.calculation += "cos()";
+        if (button === "tan") this.calculation += "tan()";
 
-        if (label === "e") this.calculation += Math.E.toFixed(4).toString();
+        this.transformation(this.calculation);
 
-        if (label === "√") this.calculation = `(${this.calculation})^0.5`;
-
-        if (label === "%") this.calculation = `${this.calculation}/100`;
-
-        if (label === "sin") this.calculation += "sin()";
-        if (label === "cos") this.calculation += "cos()";
-        if (label === "tan") this.calculation += "tan()";
-
-        this.validator();
-
-        if (label === "=") this.getHistory();
+        if (button === "=") this.getHistory();
       } catch (error) {
+        // console.error(error);
         return;
       }
     },
@@ -105,18 +107,18 @@ export default {
       this.actualDescription = "";
     },
 
-    typeDescription(label, timeBetween, currentPos) {
+    typeDescription(button, timeBetween, currentPos) {
       this.hideDescription();
-      this.showDescription(label, timeBetween, currentPos);
+      this.showDescription(button, timeBetween, currentPos);
     },
 
-    showDescription(label, timeBetween, currentPos) {
-      if (currentPos < label.buttonDescription.length) {
-        this.actualDescription += label.buttonDescription.charAt(currentPos);
+    showDescription(button, timeBetween, currentPos) {
+      if (currentPos < button.length) {
+        this.actualDescription += button.charAt(currentPos);
         currentPos++;
 
         this.discriptionTimer = setTimeout(() => {
-          this.showDescription(label, timeBetween, currentPos);
+          this.showDescription(button, timeBetween, currentPos);
         }, timeBetween);
       }
     },
@@ -128,23 +130,27 @@ export default {
 
     calculateInput(event) {
       try {
-        this.validator();
+        this.transformation(this.calculation);
         if (event.key === "Enter") this.getHistory();
 
-        if (/[^0-9aceilnopstx+\-*.^()/]/g.test(event.key)) {
-          event.preventDefault(); // preventDefault() is not working
-        }
+        this.aboba = Object.keys(buttons); // delete me
+        this.abiba = this.buttons[3].description; // delete me
+
+        console.log("key: " + event.key);
       } catch (err) {
-        // console.log(err.name);
-        // console.log(err.message);
+        // console.error(err);
         return;
       }
     },
 
-    validator() {
+    // разбить
+    transformation(calculation) {
       let trigoAndLog = ["cos", "sin", "tan", "log10", "log2", "ln"];
 
-      this.correctCalculation = this.calculation;
+      this.correctCalculation = calculation;
+
+      // avoid error
+      if (calculation === "") return;
 
       this.correctCalculation = this.correctCalculation.replace("^", "**");
 
@@ -158,17 +164,26 @@ export default {
         }
       });
 
-      console.log("correct calc: " + this.correctCalculation); // comment me or delete
+      console.log("correct calc: " + this.correctCalculation);
 
+      // cointing the answer and rounding it to thousanths if fraction has more than 4 digits
       this.calculationResult =
         eval(this.correctCalculation).toString().split(".")[1]?.length > 4
           ? eval(this.correctCalculation).toFixed(4).toString()
           : eval(this.correctCalculation).toString();
 
+      // solution of "3.000", when using the buttons like square root
       if (this.calculationResult.toString().split(".")[1] === "0000") {
         this.calculationResult = this.calculationResult
           .toString()
           .split(".")[0];
+      }
+
+      if (
+        this.calculationResult.includes("NaN") ||
+        this.calculationResult.includes("function")
+      ) {
+        this.calculationResult = "incorrect expression";
       }
     },
   },

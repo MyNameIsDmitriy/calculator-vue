@@ -1,29 +1,29 @@
 export const mobileFuncButtons = [
   {
-    buttonName: "sin",
+    name: "sin",
   },
   {
-    buttonName: "cos",
+    name: "cos",
   },
   {
-    buttonName: "tan",
+    name: "tan",
   },
   {
-    buttonName: "x²",
+    name: "x²",
   },
   {
-    buttonName: "1/x",
+    name: "1/x",
   },
   {
-    buttonName: "√",
+    name: "√",
   },
   {
-    buttonName: "π",
+    name: "π",
   },
   {
-    buttonName: "e",
+    name: "e",
   },
   {
-    buttonName: "ln",
+    name: "ln",
   },
 ];

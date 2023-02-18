@@ -2,35 +2,35 @@
   <div class="keyboard">
     <span
       class="keyboard__button"
-      @mouseover="typeDescription(label, 10, 0)"
+      @mouseover="typeDescription(button.description, 10, 0)"
       @mouseleave="hideDescription()"
-      @click="pressButton(label.buttonName, $event)"
-      v-for="label in buttons"
-      :key="label"
+      @click="pressButton(button.name, $event)"
+      v-for="button in buttons"
+      :key="button"
     >
-      {{ label.buttonName }}
+      {{ button.name }}
     </span>
   </div>
 
   <div class="keyboard-mobile-button">
     <span
       class="keyboard__button"
-      @click="pressButton(label.buttonName, $event)"
-      v-for="label in mobileButtons"
-      :key="label"
+      @click="pressButton(button.name, $event)"
+      v-for="button in mobileButtons"
+      :key="button"
     >
-      {{ label.buttonName }}
+      {{ button.name }}
     </span>
   </div>
 
   <div class="keyboard-mobile-func-button">
     <span
       class="keyboard__button"
-      @click="pressButton(label.buttonName, $event)"
-      v-for="label in mobileFuncButtons"
-      :key="label"
+      @click="pressButton(button.name, $event)"
+      v-for="button in mobileFuncButtons"
+      :key="button"
     >
-      {{ label.buttonName }}
+      {{ button.name }}
     </span>
   </div>
 </template>
@@ -42,6 +42,7 @@ import { mobileFuncButtons } from "@/mobile-func-buttons";
 
 export default {
   name: "CalcKeyboard",
+  props: ["calculation"], // TODO types
   emits: ["pressButton", "typeDescription", "hideDescription"],
 
   data() {
@@ -53,12 +54,12 @@ export default {
   },
 
   methods: {
-    pressButton(label, event) {
-      this.$emit("pressButton", label, event);
+    pressButton(name, event) {
+      this.$emit("pressButton", name, event);
     },
 
-    typeDescription(label, timeBetween, currentPos) {
-      this.$emit("typeDescription", label, timeBetween, currentPos);
+    typeDescription(buttonDescription, timeBetween, currentPos) {
+      this.$emit("typeDescription", buttonDescription, timeBetween, currentPos);
     },
 
     hideDescription() {

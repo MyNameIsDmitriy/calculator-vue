@@ -1,62 +1,62 @@
 export const mobileButtons = [
   {
-    buttonName: "Clear",
+    name: "Clear",
   },
   {
-    buttonName: "/",
+    name: "/",
   },
   {
-    buttonName: "*",
+    name: "*",
   },
   {
-    buttonName: "+",
+    name: "+",
   },
   {
-    buttonName: "7",
+    name: "7",
   },
   {
-    buttonName: "8",
+    name: "8",
   },
   {
-    buttonName: "9",
+    name: "9",
   },
   {
-    buttonName: "-",
+    name: "-",
   },
   {
-    buttonName: "4",
+    name: "4",
   },
   {
-    buttonName: "5",
+    name: "5",
   },
   {
-    buttonName: "6",
+    name: "6",
   },
   {
-    buttonName: "(",
+    name: "(",
   },
   {
-    buttonName: "1",
+    name: "1",
   },
   {
-    buttonName: "2",
+    name: "2",
   },
   {
-    buttonName: "3",
+    name: "3",
   },
   {
-    buttonName: ")",
+    name: ")",
   },
   {
-    buttonName: "%",
+    name: "%",
   },
   {
-    buttonName: "0",
+    name: "0",
   },
   {
-    buttonName: ".",
+    name: ".",
   },
   {
-    buttonName: "=",
+    name: "=",
   },
 ];

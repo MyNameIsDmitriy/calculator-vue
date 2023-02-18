@@ -6,6 +6,7 @@
       autofocus
       ref="inputRef"
       @keyup="calculateInput($event)"
+      @keypress="blockSomeSign($event)"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
     />
@@ -18,7 +19,7 @@
 <script>
 export default {
   name: "CalcDisplay",
-  props: ["calculationResult", "modelValue"],
+  props: ["calculationResult", "modelValue"], // TODO: types
   emits: ["calculateInput"],
 
   data() {
@@ -28,6 +29,18 @@ export default {
   methods: {
     calculateInput(event) {
       this.$emit("calculateInput", event);
+    },
+
+    blockSomeSign(event) {
+      if (/[^0-9aceilnopstx+\-*.^()/]/g.test(event.key)) {
+        event.preventDefault();
+      }
+    },
+  },
+
+  watch: {
+    modelValue() {
+      this.$refs.inputRef.focus();
     },
   },
 };

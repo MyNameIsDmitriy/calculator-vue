@@ -1,129 +1,162 @@
-export const buttons = [
-  {
-    buttonName: "Clear",
-    buttonDescription: "Clears the entire expression.",
+export const buttons = {
+  0: {
+    description: "Clears the entire expression.",
+    operation: () => "this.calculation = '';",
+    name: "Clear",
   },
-  {
-    buttonName: "(",
-    buttonDescription:
+  1: {
+    description:
       "Opening bracket. Parentheses are needed to set your own order of actions in a mathematical expression. Example: 3+(15-6)",
+    operation: () => "",
+    name: "(",
   },
-  {
-    buttonName: ")",
-    buttonDescription:
+  2: {
+    description:
       "Closing bracket. Parentheses are needed to set your own order of actions in a mathematical expression. Example: 3+(15-6)",
+    operation: () => "",
+    name: ")",
   },
-  {
-    buttonName: "7",
-    buttonDescription: "Number seven.",
+  3: {
+    description: "Number seven.",
+    operation: () => "",
+    name: "7",
   },
-  {
-    buttonName: "8",
-    buttonDescription: "Number eight.",
+  4: {
+    description: "Number eight.",
+    operation: () => "",
+    name: "8",
   },
-  {
-    buttonName: "9",
-    buttonDescription: "Number nine.",
+  5: {
+    description: "Number nine.",
+    operation: () => "",
+    name: "9",
   },
-  {
-    buttonName: "/",
-    buttonDescription:
+  6: {
+    description:
       "Division sign. Allows you to divide one value or the value of an expression into another. Example: 3/cos(1)",
+    operation: () => "",
+    name: "/",
   },
-  {
-    buttonName: "1/x",
-    buttonDescription:
+  7: {
+    description:
       "The unit will be divided by your expression. Thus, you determine the inverse proportionality.",
+    operation: () => `1/(${this.calculation})`,
+    name: "1/x",
   },
-  {
-    buttonName: "x²",
-    buttonDescription: "Raises your expression to the second power.",
+  8: {
+    description: "Raises your expression to the second power.",
+    operation: () => `(${this.calculation})^2`,
+    name: "x²",
   },
-  {
-    buttonName: "π",
-    buttonDescription:
+  9: {
+    description:
       "Pi. Equal to 3.1416... Will add to the end of your expression.",
+    operation: () => `this.calculation + Math.PI.toFixed(4).toString()`,
+    name: "π",
   },
-  {
-    buttonName: "4",
-    buttonDescription: "Number four.",
+  10: {
+    description: "Number four.",
+    operation: () => "",
+    name: "4",
   },
-  {
-    buttonName: "5",
-    buttonDescription: "Number five.",
+  11: {
+    description: "Number five.",
+    operation: () => "",
+    name: "5",
   },
-  {
-    buttonName: "6",
-    buttonDescription: "Number six.",
+  12: {
+    description: "Number six.",
+    operation: () => "",
+    name: "6",
   },
-  {
-    buttonName: "*",
-    buttonDescription:
+  13: {
+    description:
       "Multiplication sign, allows you to calculate the product of two numbers or expressions. Example: 3*(3-18)",
+    operation: () => "",
+    name: "*",
   },
-  {
-    buttonName: "ln",
-    buttonDescription:
+  14: {
+    description:
       "Returns the logarithm of a number. ln(x) - natural logarithm. log2(x) - the base 2 logarithm of a number. log10(x) - the base 10 logarithm of a number",
+    operation: () => `this.calculation + ln()`,
+    name: "ln",
   },
-  {
-    buttonName: "e",
-    buttonDescription:
+  15: {
+    description:
       "Euler number. Equal to 2,7182818284. Will add to the end of your expression.",
+    operation: () => `this.calculation + Math.E.toFixed(4).toString()`,
+    name: "e",
   },
-  {
-    buttonName: "√",
-    buttonDescription: "Calculates the square root of your expression.",
+  16: {
+    description: "Calculates the square root of your expression.",
+    operation: () => `(${this.calculation})^0.5`,
+    name: "√",
   },
-  {
-    buttonName: "1",
-    buttonDescription: "Number one.",
+  17: {
+    description: "Number one.",
+    operation: () => "",
+    name: "1",
   },
-  {
-    buttonName: "2",
-    buttonDescription: "Number two.",
+  18: {
+    description: "Number two.",
+    operation: () => "",
+    name: "2",
   },
-  {
-    buttonName: "3",
-    buttonDescription: "Number three.",
+  19: {
+    description: "Number three.",
+    operation: () => "",
+    name: "3",
   },
-  {
-    buttonName: "-",
-    buttonDescription:
+
+  20: {
+    description:
       "Minus sign. Allows you to calculate the difference of two numbers or expressions. Example: cos(1)-sin(0.5)",
+    operation: () => "",
+    name: "-",
   },
-  {
-    buttonName: "sin",
-    buttonDescription:
-      "Returns the sine of a number in radians. Example: sin(0.7)",
+
+  21: {
+    description: "Returns the sine of a number in radians. Example: sin(0.7)",
+    operation: () => `this.calculation + sin()`,
+    name: "sin",
   },
-  {
-    buttonName: "cos",
-    buttonDescription:
-      "Returns the cosine of a number in radians. Example: cos(1)",
+
+  22: {
+    description: "Returns the cosine of a number in radians. Example: cos(1)",
+    operation: () => `this.calculation + cos()`,
+    name: "cos",
   },
-  {
-    buttonName: "tan",
-    buttonDescription:
-      "Returns the tangent of a number in radians. Example: tan(45)",
+
+  23: {
+    description: "Returns the tangent of a number in radians. Example: tan(45)",
+    operation: () => `this.calculation + tan()`,
+    name: "tan",
   },
-  {
-    buttonName: "0",
-    buttonDescription: "Number zero.",
+
+  24: {
+    description: "Number zero.",
+    operation: () => "",
+    name: "0",
   },
-  {
-    buttonName: ".",
-    buttonDescription:
+
+  25: {
+    description:
       "Dot. Allows you to separate the integer part of the number from the fractional. Example: 5.6",
+    operation: () => "",
+    name: ".",
   },
-  {
-    buttonName: "=",
-    buttonDescription:
+
+  26: {
+    description:
       "Equal sign. Logs your expression. Only the last three entries are kept in the log.",
+    operation: () => "",
+    name: "=",
   },
-  {
-    buttonName: "+",
-    buttonDescription:
+
+  27: {
+    description:
       "Plus sign. Allows you to add two numbers or expressions. Example: 75+ln2(41)",
+    operation: () => "",
+    name: "+",
   },
-];
+};

@@ -9,7 +9,7 @@
 <script>
 export default {
   name: "CalcDescription",
-  props: ["actualDescription"],
+  props: ["actualDescription"], // TODO: types
 };
 </script>
 

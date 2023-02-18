@@ -1,5 +1,7 @@
 <template>
   <div class="calculation-history">
+    <!-- TODO v-for -->
+    <!-- v-if -->
     <p>{{ calculationHistory[2] || "" }}</p>
     <p>{{ calculationHistory[1] || "" }}</p>
     <p>{{ calculationHistory[0] || "calculate smth to get history" }}</p>
@@ -9,7 +11,7 @@
 <script>
 export default {
   name: "CalcHistory",
-  props: ["calculationHistory"],
+  props: ["calculationHistory"], // TODO types
 };
 </script>
 
