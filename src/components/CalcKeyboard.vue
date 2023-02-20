@@ -42,7 +42,9 @@ import { mobileFuncButtons } from "@/mobile-func-buttons";
 
 export default {
   name: "CalcKeyboard",
-  props: ["calculation"], // TODO types
+  props: {
+    calculation: String,
+  },
   emits: ["pressButton", "typeDescription", "hideDescription"],
 
   data() {

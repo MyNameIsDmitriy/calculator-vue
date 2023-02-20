@@ -9,7 +9,9 @@
 <script>
 export default {
   name: "CalcDescription",
-  props: ["actualDescription"], // TODO: types
+  props: {
+    actualDescription: String,
+  },
 };
 </script>
 

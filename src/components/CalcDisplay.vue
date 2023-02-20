@@ -19,7 +19,10 @@
 <script>
 export default {
   name: "CalcDisplay",
-  props: ["calculationResult", "modelValue"], // TODO: types
+  props: {
+    calculationResult: String,
+    modelValue: String,
+  },
   emits: ["calculateInput"],
 
   data() {

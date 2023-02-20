@@ -11,7 +11,9 @@
 <script>
 export default {
   name: "CalcHistory",
-  props: ["calculationHistory"], // TODO types
+  props: {
+    calculationHistory: String,
+  },
 };
 </script>
 
