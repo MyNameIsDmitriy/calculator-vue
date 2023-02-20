@@ -49,7 +49,7 @@ export default {
       aboba: "",
       abiba: "",
 
-      calculationHistory: [],
+      calculationHistory: ["", ""],
       calculation: "",
       correctCalculation: "",
       calculationResult: "",
@@ -124,14 +124,14 @@ export default {
     },
 
     getHistory() {
-      this.calculationHistory.splice(2, 1);
-      this.calculationHistory.unshift(this.calculation);
+      this.calculationHistory.push(this.calculation);
+      if (this.calculationHistory.length > 3) this.calculationHistory.shift();
     },
 
     calculateInput(event) {
       try {
         this.transformation(this.calculation);
-        if (event.key === "Enter") this.getHistory();
+        if (event.key === "Enter" && this.calculation !== "") this.getHistory();
 
         this.aboba = Object.keys(buttons); // delete me
         this.abiba = this.buttons[3].description; // delete me

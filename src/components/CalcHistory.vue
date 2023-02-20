@@ -1,10 +1,11 @@
 <template>
   <div class="calculation-history">
-    <!-- TODO v-for -->
-    <!-- v-if -->
-    <p>{{ calculationHistory[2] || "" }}</p>
-    <p>{{ calculationHistory[1] || "" }}</p>
-    <p>{{ calculationHistory[0] || "calculate smth to get history" }}</p>
+    <p v-if="calculationHistory.length < 3">
+      {{ "calculate smth to get history" }}
+    </p>
+    <p v-for="history in calculationHistory" :key="history">
+      {{ history }}
+    </p>
   </div>
 </template>
 
@@ -12,7 +13,7 @@
 export default {
   name: "CalcHistory",
   props: {
-    calculationHistory: String,
+    calculationHistory: Array,
   },
 };
 </script>
