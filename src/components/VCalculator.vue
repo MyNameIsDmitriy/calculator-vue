@@ -67,31 +67,32 @@ export default {
     pressButton(button) {
       try {
         if (
-          !isNaN(button) ||
-          MATH_OPERATIONS.includes(button) ||
-          button === "(" ||
-          button === ")"
+          !isNaN(button.name) ||
+          MATH_OPERATIONS.includes(button.name) ||
+          button.name === "(" ||
+          button.name === ")"
         ) {
-          this.calculation += button;
-        }
-        // else this.calculation = operation[button](this.calculation);
+          this.calculation += button.name;
+        } else this.calculation = button.operation();
 
-        if (button === "Clear") {
-          this.calculation = "";
-        }
+        console.log(button.operation);
 
-        if (button === "1/x") this.calculation = `1/(${this.calculation})`;
-        if (button === "x²") this.calculation = `(${this.calculation})^2`;
-        if (button === "√") this.calculation = `(${this.calculation})^0.5`;
-        if (button === "%") this.calculation = `${this.calculation}/100`;
+        // if (button === "Clear") {
+        //   this.calculation = "";
+        // }
 
-        if (button === "π") this.calculation += Math.PI.toFixed(4).toString();
-        if (button === "ln") this.calculation += "ln()";
-        if (button === "e") this.calculation += Math.E.toFixed(4).toString();
+        // if (button === "1/x") this.calculation = `1/(${this.calculation})`;
+        // if (button === "x²") this.calculation = `(${this.calculation})^2`;
+        // if (button === "√") this.calculation = `(${this.calculation})^0.5`;
+        // if (button === "%") this.calculation = `${this.calculation}/100`;
 
-        if (button === "sin") this.calculation += "sin()";
-        if (button === "cos") this.calculation += "cos()";
-        if (button === "tan") this.calculation += "tan()";
+        // if (button === "π") this.calculation += Math.PI.toFixed(4).toString();
+        // if (button === "ln") this.calculation += "ln()";
+        // if (button === "e") this.calculation += Math.E.toFixed(4).toString();
+
+        // if (button === "sin") this.calculation += "sin()";
+        // if (button === "cos") this.calculation += "cos()";
+        // if (button === "tan") this.calculation += "tan()";
 
         this.transformation(this.calculation);
 
@@ -149,7 +150,7 @@ export default {
 
       this.correctCalculation = calculation;
 
-      // avoid error
+      // avoiding error
       if (calculation === "") return;
 
       this.correctCalculation = this.correctCalculation.replace("^", "**");

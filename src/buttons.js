@@ -1,7 +1,7 @@
 export const buttons = {
   0: {
     description: "Clears the entire expression.",
-    operation: () => "this.calculation = '';",
+    operation: () => (this.calculation = ""),
     name: "Clear",
   },
   1: {
@@ -84,7 +84,7 @@ export const buttons = {
   15: {
     description:
       "Euler number. Equal to 2,7182818284. Will add to the end of your expression.",
-    operation: () => `this.calculation + Math.E.toFixed(4).toString()`,
+    operation: () => this.calculation + Math.E.toFixed(4).toString(),
     name: "e",
   },
   16: {

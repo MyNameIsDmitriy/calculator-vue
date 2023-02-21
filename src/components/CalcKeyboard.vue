@@ -4,7 +4,7 @@
       class="keyboard__button"
       @mouseover="typeDescription(button.description, 10, 0)"
       @mouseleave="hideDescription()"
-      @click="pressButton(button.name, $event)"
+      @click="pressButton(button, $event)"
       v-for="button in buttons"
       :key="button"
     >
@@ -43,7 +43,7 @@ import { mobileFuncButtons } from "@/mobile-func-buttons";
 export default {
   name: "CalcKeyboard",
   props: {
-    calculation: String,
+    calculation: [Function, String], // TODO types and button or button.name
   },
   emits: ["pressButton", "typeDescription", "hideDescription"],
 
