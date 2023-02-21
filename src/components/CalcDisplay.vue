@@ -23,7 +23,7 @@ export default {
     calculationResult: String,
     modelValue: String,
   },
-  emits: ["calculateInput"],
+  emits: ["calculateInput", "update:modelValue"],
 
   data() {
     return {};
