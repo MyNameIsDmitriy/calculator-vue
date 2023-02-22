@@ -114,7 +114,7 @@ export default {
         this.transformate(this.calculation);
         if (event.key === "Enter" && this.calculation !== "") this.getHistory();
 
-        console.log("key: " + event.key);
+        // console.log("key: " + event.key);
       } catch (err) {
         // console.error(err);
         return;
