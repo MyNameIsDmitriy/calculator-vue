@@ -35,7 +35,7 @@ export default {
     },
 
     blockSomeSign(event) {
-      if (/[^0-9aceilnopstx+\-*.^()/]/g.test(event.key)) {
+      if (/[^0-9acegilnopstx+\-*.^()/]/g.test(event.key)) {
         event.preventDefault();
       }
     },

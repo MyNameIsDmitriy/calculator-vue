@@ -29,9 +29,6 @@ import CalcDescription from "@/components/CalcDescription.vue";
 
 import { buttons } from "@/buttons";
 
-// TODO
-// object freeze ??? (несложно)
-
 const MATH_OPERATIONS = ["/", "*", "-", "+", "."];
 
 export default {
@@ -46,20 +43,20 @@ export default {
   data() {
     return {
       buttons: buttons,
-      aboba: "",
-      abiba: "",
 
       calculationHistory: ["", ""],
+
       calculation: "",
       correctCalculation: "",
       calculationResult: "",
+
       actualDescription: "",
     };
   },
 
   watch: {
-    calculation(newCalc) {
-      if (newCalc === "") this.calculationResult = "";
+    calculation(newVal) {
+      if (newVal === "") this.calculationResult = "";
     },
   },
 
@@ -73,30 +70,13 @@ export default {
           button.name === ")"
         ) {
           this.calculation += button.name;
-        } else this.calculation = button.operation();
+        } else if (button.name === "=") {
+          this.getHistory();
+        } else if (button.name === "%") {
+          this.calculation = `${this.calculation}/100`;
+        } else this.calculation = button.operation(this.calculation);
 
-        console.log(button.operation);
-
-        // if (button === "Clear") {
-        //   this.calculation = "";
-        // }
-
-        // if (button === "1/x") this.calculation = `1/(${this.calculation})`;
-        // if (button === "x²") this.calculation = `(${this.calculation})^2`;
-        // if (button === "√") this.calculation = `(${this.calculation})^0.5`;
-        // if (button === "%") this.calculation = `${this.calculation}/100`;
-
-        // if (button === "π") this.calculation += Math.PI.toFixed(4).toString();
-        // if (button === "ln") this.calculation += "ln()";
-        // if (button === "e") this.calculation += Math.E.toFixed(4).toString();
-
-        // if (button === "sin") this.calculation += "sin()";
-        // if (button === "cos") this.calculation += "cos()";
-        // if (button === "tan") this.calculation += "tan()";
-
-        this.transformation(this.calculation);
-
-        if (button === "=") this.getHistory();
+        this.transformate(this.calculation);
       } catch (error) {
         // console.error(error);
         return;
@@ -104,7 +84,7 @@ export default {
     },
 
     hideDescription() {
-      clearTimeout(this.discriptionTimer);
+      clearTimeout(this.descriptionTimer);
       this.actualDescription = "";
     },
 
@@ -118,7 +98,7 @@ export default {
         this.actualDescription += button.charAt(currentPos);
         currentPos++;
 
-        this.discriptionTimer = setTimeout(() => {
+        this.descriptionTimer = setTimeout(() => {
           this.showDescription(button, timeBetween, currentPos);
         }, timeBetween);
       }
@@ -131,11 +111,8 @@ export default {
 
     calculateInput(event) {
       try {
-        this.transformation(this.calculation);
+        this.transformate(this.calculation);
         if (event.key === "Enter" && this.calculation !== "") this.getHistory();
-
-        this.aboba = Object.keys(buttons); // delete me
-        this.abiba = this.buttons[3].description; // delete me
 
         console.log("key: " + event.key);
       } catch (err) {
@@ -145,29 +122,15 @@ export default {
     },
 
     // разбить
-    transformation(calculation) {
-      let trigoAndLog = ["cos", "sin", "tan", "log10", "log2", "ln"];
-
+    transformate(calculation) {
       this.correctCalculation = calculation;
 
       // avoiding error
       if (calculation === "") return;
 
-      this.correctCalculation = this.correctCalculation.replace("^", "**");
+      this.correctExpression();
 
-      trigoAndLog.forEach((el) => {
-        this.correctCalculation = this.correctCalculation.replaceAll(
-          el,
-          "Math." + el
-        );
-        if (el === "ln") {
-          this.correctCalculation = this.correctCalculation.replace(el, "log");
-        }
-      });
-
-      console.log("correct calc: " + this.correctCalculation);
-
-      // cointing the answer and rounding it to thousanths if fraction has more than 4 digits
+      // counting the answer and rounding it to thousanths if fraction has more than 4 digits
       this.calculationResult =
         eval(this.correctCalculation).toString().split(".")[1]?.length > 4
           ? eval(this.correctCalculation).toFixed(4).toString()
@@ -179,7 +142,31 @@ export default {
           .toString()
           .split(".")[0];
       }
+      this.validateExpression();
+    },
 
+    correctExpression() {
+      let trigoAndLog = ["cos", "sin", "tan", "log10", "log2", "ln"];
+
+      this.correctCalculation = this.correctCalculation.replaceAll("^", "**");
+
+      trigoAndLog.forEach((el) => {
+        this.correctCalculation = this.correctCalculation.replaceAll(
+          el,
+          "Math." + el
+        );
+        if (el === "ln") {
+          this.correctCalculation = this.correctCalculation.replaceAll(
+            el,
+            "log"
+          );
+        }
+      });
+
+      // console.log("correct calc: " + this.correctCalculation);
+    },
+
+    validateExpression() {
       if (
         this.calculationResult.includes("NaN") ||
         this.calculationResult.includes("function")

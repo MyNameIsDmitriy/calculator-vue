@@ -1,7 +1,7 @@
 export const buttons = {
   0: {
     description: "Clears the entire expression.",
-    operation: () => (this.calculation = ""),
+    operation: () => "",
     name: "Clear",
   },
   1: {
@@ -40,18 +40,18 @@ export const buttons = {
   7: {
     description:
       "The unit will be divided by your expression. Thus, you determine the inverse proportionality.",
-    operation: () => `1/(${this.calculation})`,
+    operation: (calculation) => `1/(${calculation})`,
     name: "1/x",
   },
   8: {
     description: "Raises your expression to the second power.",
-    operation: () => `(${this.calculation})^2`,
+    operation: (calculation) => `(${calculation})^2`,
     name: "x²",
   },
   9: {
     description:
       "Pi. Equal to 3.1416... Will add to the end of your expression.",
-    operation: () => `this.calculation + Math.PI.toFixed(4).toString()`,
+    operation: (calculation) => calculation + Math.PI.toFixed(4).toString(),
     name: "π",
   },
   10: {
@@ -78,18 +78,18 @@ export const buttons = {
   14: {
     description:
       "Returns the logarithm of a number. ln(x) - natural logarithm. log2(x) - the base 2 logarithm of a number. log10(x) - the base 10 logarithm of a number",
-    operation: () => `this.calculation + ln()`,
+    operation: (calculation) => calculation + "ln()",
     name: "ln",
   },
   15: {
     description:
       "Euler number. Equal to 2,7182818284. Will add to the end of your expression.",
-    operation: () => this.calculation + Math.E.toFixed(4).toString(),
+    operation: (calculation) => calculation + Math.E.toFixed(4).toString(),
     name: "e",
   },
   16: {
     description: "Calculates the square root of your expression.",
-    operation: () => `(${this.calculation})^0.5`,
+    operation: (calculation) => `(${calculation})^0.5`,
     name: "√",
   },
   17: {
@@ -117,19 +117,19 @@ export const buttons = {
 
   21: {
     description: "Returns the sine of a number in radians. Example: sin(0.7)",
-    operation: () => `this.calculation + sin()`,
+    operation: (calculation) => calculation + "sin()",
     name: "sin",
   },
 
   22: {
     description: "Returns the cosine of a number in radians. Example: cos(1)",
-    operation: () => `this.calculation + cos()`,
+    operation: (calculation) => calculation + "cos()",
     name: "cos",
   },
 
   23: {
     description: "Returns the tangent of a number in radians. Example: tan(45)",
-    operation: () => `this.calculation + tan()`,
+    operation: (calculation) => calculation + "tan()",
     name: "tan",
   },
 
@@ -149,7 +149,7 @@ export const buttons = {
   26: {
     description:
       "Equal sign. Logs your expression. Only the last three entries are kept in the log.",
-    operation: () => "",
+    operation: (calculation) => calculation + "",
     name: "=",
   },
 

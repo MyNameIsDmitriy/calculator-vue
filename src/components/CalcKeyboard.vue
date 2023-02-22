@@ -43,7 +43,7 @@ import { mobileFuncButtons } from "@/mobile-func-buttons";
 export default {
   name: "CalcKeyboard",
   props: {
-    calculation: [Function, String], // TODO types and button or button.name
+    calculation: [Function, String],
   },
   emits: ["pressButton", "typeDescription", "hideDescription"],
 
@@ -56,8 +56,8 @@ export default {
   },
 
   methods: {
-    pressButton(name, event) {
-      this.$emit("pressButton", name, event);
+    pressButton(buttonObj, event) {
+      this.$emit("pressButton", buttonObj, event);
     },
 
     typeDescription(buttonDescription, timeBetween, currentPos) {
