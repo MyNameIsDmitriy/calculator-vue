@@ -1,5 +1,7 @@
 # calculate-me
 
+### Deploy on https://sensational-hotteok-720d6f.netlify.app/
+
 ## Project setup
 ```
 npm install
